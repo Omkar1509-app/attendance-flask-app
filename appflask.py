@@ -18,6 +18,8 @@ def index():
         file = request.files.get("file")
         shift = request.form.get("shift")
         date_str = request.form.get("date")
+        return render_template("index.html", result=result)
+    return render_template("index.html")
 
         if file and shift and date_str:
             file_path = os.path.join(UPLOAD_FOLDER, file.filename)
