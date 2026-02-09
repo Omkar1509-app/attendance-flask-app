@@ -18,32 +18,30 @@ def index():
         file = request.files.get("file")
         shift = request.form.get("shift")
         date_str = request.form.get("date")
-        return render_template("index.html", result=result)
-    return render_template("index.html")
 
         if file and shift and date_str:
             file_path = os.path.join(UPLOAD_FOLDER, file.filename)
             file.save(file_path)
 
             df = pd.read_excel(file_path)
-            df['Date'] = pd.to_datetime(df['Date']).dt.date
+            df["Date"] = pd.to_datetime(df["Date"]).dt.date
 
             selected_date = datetime.strptime(date_str, "%Y-%m-%d").date()
 
             present_employees = df[
-                (df['Date'] == selected_date) &
-                (df['Shift'] == shift) &
-                (df['Status'] == 'Present')
+                (df["Date"] == selected_date)
+                & (df["Shift"] == shift)
+                & (df["Status"] == "Present")
             ]
 
-            names = present_employees['Name'].tolist()
+            names = present_employees["Name"].tolist()
 
-        return render_template(
-            "index.html",
-            names=names,
-            shift=shift,
-            selected_date=selected_date
-        )
+    return render_template(
+        "index.html",
+        names=names,
+        shift=shift,
+        selected_date=selected_date
+    )
 
 if __name__ == "__main__":
     app.run()
