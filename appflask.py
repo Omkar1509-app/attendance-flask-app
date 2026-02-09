@@ -8,6 +8,8 @@ app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+REQUIRED_COLUMNS = {"Name", "Date", "Shift", "Remarks"}
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     names = []
@@ -31,7 +33,7 @@ def index():
             present_employees = df[
                 (df["Date"] == selected_date)
                 & (df["Shift"] == shift)
-                & (df["Status"] == "Present")
+                & (df["Remarks"] == "Present")
             ]
 
             names = present_employees["Name"].tolist()
